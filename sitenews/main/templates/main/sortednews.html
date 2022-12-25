@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Агреготор новостей: Будь в курсе{% endblock %}
+
+{% block menu1 %}
+<div class="menu-block-top">
+    <a href="/main/">Вернуться на главную</a>
+</div>
+{% endblock %}
+
+{% block auth-block %}
+<a href="/authorization/">
+    <div class="header-link-block left-block">
+        <p class="header-link-text"><img class="auth-img" src="https://fogsoft.com/wp-content/uploads/2017/07/user-logo.png" width="35px" height="35px"></p>
+        <p class="header-link-text">{{user_name}}</p>
+    </div>
+</a>
+{% endblock %}
+
+{% block menu2 %}
+<div class="menu-block">
+    <div class="menu-currency-header">
+        Курсы Валют
+    </div>
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{usd_price}}</span>
+        <span class="menu-currency-info">USD/RUB</span>
+    </div>
+        
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{eur_price}}</span>
+        <span class="menu-currency-info">EUR/RUB</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{gbp_price}}</span>
+        <span class="menu-currency-info">GBP/RUB</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{bitcoin_price}}</span>
+        <span class="menu-currency-info">BTC/USD</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block menu3 %}
+<div class="menu-block">
+    <div class="menu-currency-header">
+        Коронавирус
+    </div>
+    <div class="menu-currency-block">
+        <span class="menu-virus-header">Случаев:</span>
+        <span class="menu-currency-text">{{cases}} млн</span>
+        <span class="menu-currency-info">+{{cases_day}}</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-virus-header">Вылечено:</span>
+        <span class="menu-currency-text">{{recovered}} млн</span>
+        <span class="menu-currency-info">+{{recovered_day}}</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+    {% if news %}
+        <div class="main-part">
+            <div class="main-block-header">
+                <p class="center main-header">Новости для Вас</p>
+            </div>
+        {% for n in news %}
+            <a href="{{url}}?next={{n.source_url}}&id={{n.id}}">
+                <div class="main-block">
+                    {% if n.source_id == 5%}
+                        <p class="picture"><img src="/static/images/match.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 4%}
+                        <p class="picture"><img src="/static/images/ixbt.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 3%}
+                        <p class="picture"><img src="/static/images/lenta.png" width="30px" height="8px"></p>
+                    {% endif %}
+                    {% if n.source_id == 2%}
+                        <p class="picture"><img src="/static/images/iz.jpg" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 1%}
+                        <p class="picture"><img src="/static/images/tass.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 0%}
+                        <p class="picture"><img src="/static/images/news.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    <p class="center">{{n.title}}</p>
+                    <div style="padding-left: 20px; float: right; display: inline-table; height: 100%">
+                        <p style="display: table-cell; vertical-align: bottom; padding-bottom: 5px;opacity: 0.4">{{n.views_count}}</p>
+                    </div>
+                    <p style="padding-left: 8px; vertical-align: bottom;" class="float: right; picture"><img style="opacity: 0.4" src="http://cdn.onlinewebfonts.com/svg/img_197528.png" height="25px"></p>
+                </div>
+            </a>
+        {% endfor %}
+            <div class="bottom-block">
+                <p class = "center"></p>
+            </div>
+        </div>
+    {% else %}
+        <div class="main-part">
+            <div class="main-block-header">
+                <p class="center main-header">Новостей по вашему запросу не найдено )=</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block dop %}
+    {% if dop %}
+        <div class="main-part">
+            <div class="main-block-header dop-news-section">
+                <p class="center main-header">Еще новости</p>
+            </div>
+            {% for n in dop %}
+                <a href="{{url}}?next={{n.source_url}}&id={{n.id}}">
+                <div class="main-block">
+                    {% if n.source_id == 5%}
+                        <p class="picture"><img src="/static/images/match.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 4%}
+                        <p class="picture"><img src="/static/images/ixbt.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 3%}
+                        <p class="picture"><img src="/static/images/lenta.png" width="30px" height="8px"></p>
+                    {% endif %}
+                    {% if n.source_id == 2%}
+                        <p class="picture"><img src="/static/images/iz.jpg" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 1%}
+                        <p class="picture"><img src="/static/images/tass.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 0%}
+                        <p class="picture"><img src="/static/images/news.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    <p class="center">{{n.title}}</p>
+                    <div style="padding-left: 20px; float: right; display: inline-table; height: 100%">
+                        <p style="display: table-cell; vertical-align: bottom; padding-bottom: 5px;opacity: 0.4">{{n.views_count}}</p>
+                    </div>
+                    <p style="padding-left: 8px; vertical-align: bottom;" class="float: right; picture"><img style="opacity: 0.4" src="http://cdn.onlinewebfonts.com/svg/img_197528.png" height="25px"></p>
+                </div>
+            </a>
+            {% endfor %}
+                <div class="bottom-block">
+                    <p class = "center"></p>
+                </div>
+        </div>
+    {% endif %}
+{% endblock %}

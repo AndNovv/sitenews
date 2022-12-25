@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Агреготор новостей: Будь в курсе{% endblock %}
+
+{% block auth-block %}
+<a href="/authorization/">
+    <div class="header-link-block left-block">
+        <p class="header-link-text"><img class="auth-img" src="https://fogsoft.com/wp-content/uploads/2017/07/user-logo.png" width="35px" height="35px"></p>
+        <p class="header-link-text">{{user_name}}</p>
+    </div>
+</a>
+{% endblock %}
+
+{% block menu1 %}
+<div class="menu-block-top">
+    <a href="/main/">Вернуться на главную</a>
+</div>
+{% endblock %}
+
+{% block menu2 %}
+<div class="menu-block">
+    <div class="menu-currency-header">
+        Курсы Валют
+    </div>
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{usd_price}}</span>
+        <span class="menu-currency-info">USD/RUB</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{eur_price}}</span>
+        <span class="menu-currency-info">EUR/RUB</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{gbp_price}}</span>
+        <span class="menu-currency-info">GBP/RUB</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-currency-text">{{bitcoin_price}}</span>
+        <span class="menu-currency-info">BTC/USD</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block menu3 %}
+<div class="menu-block">
+    <div class="menu-currency-header">
+        Коронавирус
+    </div>
+    <div class="menu-currency-block">
+        <span class="menu-virus-header">Случаев:</span>
+        <span class="menu-currency-text">{{cases}} млн</span>
+        <span class="menu-currency-info">+{{cases_day}}</span>
+    </div>
+
+    <div class="menu-currency-block">
+        <span class="menu-virus-header">Вылечено:</span>
+        <span class="menu-currency-text">{{recovered}} млн</span>
+        <span class="menu-currency-info">+{{recovered_day}}</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+    {% if article %}
+        <div class="main-part">
+            <div class="main-block-header">
+                <p class="center main-header" style="padding: 10px 25px;">{{article.title}}</p>
+            </div>
+            <div class="main-block">
+                <div class="center" style="padding: 10px 0px 10px 25px; font-family: 'Yanone Kaffeesatz', 'sans-serif'; font-size: x-large">
+                    {% for paragraph in article_paragraphs %}
+                        <p class="article-paragraph">{{paragraph}}</p>
+                    {% endfor %}
+                </div>
+                <div style="padding-left: 20px; margin: 5%; float: right; display: inline-table; height: 100%">
+                    <p style="display: table-cell; vertical-align: bottom; padding-bottom: 5px;opacity: 0.4">{{article.views_count}}</p>
+                </div>
+                <p style="padding-left: 8px; vertical-align: bottom;" class="float: right; picture"><img style="opacity: 0.4" src="http://cdn.onlinewebfonts.com/svg/img_197528.png" height="25px"></p>
+            </div>
+            <div class="bottom-block">
+                <p class="center"></p>
+            </div>
+        </div>
+    {% else %}
+        <span>Ошибка при поиске статьи</span>
+    {% endif %}
+{% endblock %}

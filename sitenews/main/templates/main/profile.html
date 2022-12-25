@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Агреготор новостей: Будь в курсе{% endblock %}
+
+{% block auth-block %}
+<a href="/leave/">
+    <div class="header-link-block left-block">
+        <p class="header-link-text"><img class="auth-img" src="https://fogsoft.com/wp-content/uploads/2017/07/user-logo.png" width="35px" height="35px"></p>
+        <p class="header-link-text">Выйти</p>
+    </div>
+</a>
+{% endblock %}
+
+{% block menu1 %}
+<div class="menu-block-top">
+    <a href="/main/">Вернуться на главную</a>
+</div>
+{% endblock %}
+
+{% block menu2 %}
+    <div class="menu-block">
+    {% if sources %}
+        <form action="/changesubs/" method = "POST">{% csrf_token %}
+            <div class="menu-item">
+                <p class="menu-block-header">Ваши подписки</p>
+            </div>
+        {% for n in sources %}
+            <div class="menu-item">
+                <div class="checkbox-block">
+                    <p class="vertical-align">
+                        {% if n.source_id in followed_sources %}
+                            <input type="checkbox" checked="checked" id={{n.source_name_form}} class="custom-checkbox" name={{n.source_name_form}}>
+                        {% else %}
+                            <input type="checkbox" id={{n.source_name_form}} class="custom-checkbox" name={{n.source_name_form}}>
+                        {% endif %}
+                        <label class="menu-font" for={{n.source_name_form}}>{{n.source_name}}</label>
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+            <div class="menu-item">
+                <div class="checkbox-block">
+                    <p class="vertical-align">
+                        {% if user.telegram_notification %}
+                            <input type="checkbox" checked="checked" id='telegram' class="custom-checkbox" name='telegram'>
+                        {% else %}
+                            <input type="checkbox" id='telegram' class="custom-checkbox" name='telegram'>
+                        {% endif %}
+                        <label class="menu-font" style="margin-top: 10px; margin-bottom: 15px" for='telegram'>Получать уведомления в Telegram</label>
+                    </p>
+                </div>
+            </div>
+            <br></br><button class="menu-button" type="submit">Сохранить изменения</button>
+        </form>
+    {% else %}
+        <p class="menu-item">Ой, что-то сломалось =(</p>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block profile %}
+    <div class="profile-block">
+        <div class="profile-sup-block">
+            <p class="profile-img">
+                <img class="auth-img" src="https://fogsoft.com/wp-content/uploads/2017/07/user-logo.png" width="45px" height="45px">
+            </p>
+        </div>
+        <div class="profile-sup-block">
+            <p class="profile-text">{{user.user_name}}</p>
+        </div>
+        <div class="profile-sup-block right-block" style="padding-right: 20px">
+            <p class="profile-text">{{user.user_login}}</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if news %}
+        <div class="main-part">
+            <div class="main-block-header">
+                <p class="center main-header">Актуальные новости по вашим подпискам</p>
+            </div>
+        {% for n in news %}
+            <a href="{{url}}?next={{n.source_url}}&id={{n.id}}">
+                <div class="main-block">
+                    {% if n.source_id == 5%}
+                        <p class="picture"><img src="/static/images/match.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 4%}
+                        <p class="picture"><img src="/static/images/ixbt.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 3%}
+                        <p class="picture"><img src="/static/images/lenta.png" width="30px" height="8px"></p>
+                    {% endif %}
+                    {% if n.source_id == 2%}
+                        <p class="picture"><img src="/static/images/iz.jpg" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 1%}
+                        <p class="picture"><img src="/static/images/tass.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 0%}
+                        <p class="picture"><img src="/static/images/news.png" width="30px" height="30px"></p>
+                    {% endif %}
+
+                    <p class="center">{{n.title}}</p>
+                    <div style="padding-left: 20px; float: right; display: inline-table; height: 100%">
+                        <p style="display: table-cell; vertical-align: bottom; padding-bottom: 5px;opacity: 0.4">{{n.views_count}}</p>
+                    </div>
+                    <p style="padding-left: 8px; vertical-align: bottom;" class="float: right; picture"><img style="opacity: 0.4" src="http://cdn.onlinewebfonts.com/svg/img_197528.png" height="25px"></p>
+                </div>
+            </a>
+        {% endfor %}
+            <div class="bottom-block">
+                <p class = "center"></p>
+            </div>
+        </div>
+    {% else %}
+        <div class="main-part">
+            <div class="main-block-header">
+                <p class="center main-header">Подпишись на любимые источники и будь в курсе</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block viewed_news %}
+
+    {% if viewed_news %}
+        <div class="main-part" style="margin-top: 20px">
+            <div class="main-block-header">
+                <p class="center main-header">Последние просмотренные новости</p>
+            </div>
+        {% for n in viewed_news %}
+            <a href="{{url}}?next={{n.source_url}}&id={{n.id}}">
+                <div class="main-block">
+                    {% if n.source_id == 5%}
+                        <p class="picture"><img src="/static/images/match.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 4%}
+                        <p class="picture"><img src="/static/images/ixbt.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 3%}
+                        <p class="picture"><img src="/static/images/lenta.png" width="30px" height="8px"></p>
+                    {% endif %}
+                    {% if n.source_id == 2%}
+                        <p class="picture"><img src="/static/images/iz.jpg" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 1%}
+                        <p class="picture"><img src="/static/images/tass.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    {% if n.source_id == 0%}
+                        <p class="picture"><img src="/static/images/news.png" width="30px" height="30px"></p>
+                    {% endif %}
+                    <p class="center">{{n.title}}</p>
+                    <div style="padding-left: 20px; float: right; display: inline-table; height: 100%">
+                        <p style="display: table-cell; vertical-align: bottom; padding-bottom: 5px;opacity: 0.4">{{n.views_count}}</p>
+                    </div>
+                    <p style="padding-left: 8px; vertical-align: bottom;" class="float: right; picture"><img style="opacity: 0.4" src="http://cdn.onlinewebfonts.com/svg/img_197528.png" height="25px"></p>
+                </div>
+            </a>
+        {% endfor %}
+            <div class="bottom-block">
+                <p class = "center"></p>
+            </div>
+        </div>
+    {% else %}
+        <div class="main-part" style="margin-top: 20px">
+            <div class="main-block-header">
+                <p class="center main-header">Кажется, вы еще не просматривали ни одной новостной статьи</p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
